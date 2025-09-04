@@ -3,7 +3,7 @@ import 'environment.dart';
 class ApiConfig {
   // URLs base según el entorno
   static const String _devBaseUrl = 'http://172.17.15.181/backend_php';
-  static const String _stagingBaseUrl = 'http://172.17.15.181/backend_php'; // Cambiar cuando tengas staging
+  static const String _stagingBaseUrl = 'http://172.17.9.201/backend_php'; // Cambiar cuando tengas staging
   static const String _prodBaseUrl = 'https://tu-dominio.com/api'; // Cambiar cuando tengas producción
   
   // URL base del backend según el entorno
