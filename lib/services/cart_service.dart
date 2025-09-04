@@ -1,38 +1,35 @@
-import 'dart:async';
-import 'package:http/http.dart' as http;
-import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/foundation.dart';
+import '../models/cart.dart';
+import '../models/product.dart';
 
 class CartService {
-  final String baseUrl;
-  CartService(this.baseUrl);
+  CartService._();
+  static final CartService _instance = CartService._();
+  factory CartService() => _instance;
 
-  /// Verifica si hay conectividad de red local (Wi‑Fi / móvil).
-  Future<bool> hasNetwork() async {
-    final result = await Connectivity().checkConnectivity();
-    return result != ConnectivityResult.none;
+  final Cart cart = Cart();
+
+  // Notificadores simples para reconstruir la UI
+  final ValueNotifier<int> itemCount = ValueNotifier<int>(0);
+  final ValueNotifier<double> total = ValueNotifier<double>(0);
+
+  void add(Product p) {
+    cart.addProduct(p);
+    _notify();
   }
 
-  /// Valida un endpoint de salud general del API (por convención /health).
-  Future<bool> validateApi({Duration timeout = const Duration(seconds: 5)}) async {
-    if (!await hasNetwork()) return false;
-    try {
-      final uri = Uri.parse('$baseUrl/health');
-      final resp = await http.get(uri).timeout(timeout);
-      return resp.statusCode >= 200 && resp.statusCode < 300;
-    } catch (_) {
-      return false;
-    }
+  void remove(Product p) {
+    cart.removeProduct(p);
+    _notify();
   }
 
-  /// Comprueba directamente el endpoint del carrito (por ejemplo /cart/ping).
-  Future<bool> validateCartConnection({Duration timeout = const Duration(seconds: 5)}) async {
-    if (!await hasNetwork()) return false;
-    try {
-      final uri = Uri.parse('$baseUrl/cart/ping');
-      final resp = await http.get(uri).timeout(timeout);
-      return resp.statusCode == 200;
-    } catch (_) {
-      return false;
-    }
+  void clear() {
+    cart.items.clear();
+    _notify();
+  }
+
+  void _notify() {
+    itemCount.value = cart.items.length;
+    total.value = cart.total;
   }
 }

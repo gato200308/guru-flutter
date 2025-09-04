@@ -15,7 +15,7 @@ class CartItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(product.name),
-      subtitle: Text("\$${product.price.toStringAsFixed(2)}"),
+      subtitle: Text('\$${product.price.toStringAsFixed(2)}'),
       trailing: IconButton(
         icon: const Icon(Icons.remove_circle),
         onPressed: onRemove,
