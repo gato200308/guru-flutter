@@ -20,7 +20,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   final _direccionController = TextEditingController();
-  
+
   bool _isLoading = false;
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
@@ -48,36 +48,41 @@ class _RegisterScreenState extends State<RegisterScreen> {
       _isLoading = true;
     });
 
-         try {
-       print('=== INICIANDO REGISTRO ===');
-       print('Nombre: ${_nombreController.text.trim()}');
-       print('Correo: ${_emailController.text.trim()}');
-       print('Contraseña: ${_passwordController.text}');
-       print('Rol: $_selectedRol');
-       print('Teléfono: ${_phoneNumber.phoneNumber}');
-       print('URL de registro: ${ApiConfig.baseUrl}/auth/register.php');
-       
-              final requestBody = {
-         'nombre': _nombreController.text.trim(),
-         'correo': _emailController.text.trim(),
-         'contrasena': _passwordController.text,
-         'rol': _selectedRol,
-         'direccion': _direccionController.text.trim(),
-         'telefono': _phoneNumber.phoneNumber ?? '',
-       };
-       
-       print('Body enviado: ${json.encode(requestBody)}');
-       
-       final response = await http.post(
-         Uri.parse('${ApiConfig.baseUrl}/auth/register.php'),
-         headers: ApiConfig.defaultHeaders,
-         body: json.encode(requestBody),
-       ).timeout(
-        ApiConfig.requestTimeout,
-        onTimeout: () {
-          throw TimeoutException('La petición tardó demasiado en responder', ApiConfig.requestTimeout);
-        },
-      );
+    try {
+      print('=== INICIANDO REGISTRO ===');
+      print('Nombre: ${_nombreController.text.trim()}');
+      print('Correo: ${_emailController.text.trim()}');
+      print('Contraseña: ${_passwordController.text}');
+      print('Rol: $_selectedRol');
+      print('Teléfono: ${_phoneNumber.phoneNumber}');
+      print('URL de registro: ${ApiConfig.baseUrl}/auth/register.php');
+
+      final requestBody = {
+        'nombre': _nombreController.text.trim(),
+        'correo': _emailController.text.trim(),
+        'contrasena': _passwordController.text,
+        'rol': _selectedRol,
+        'direccion': _direccionController.text.trim(),
+        'telefono': _phoneNumber.phoneNumber ?? '',
+      };
+
+      print('Body enviado: ${json.encode(requestBody)}');
+
+      final response = await http
+          .post(
+            Uri.parse('${ApiConfig.baseUrl}/auth/register.php'),
+            headers: ApiConfig.defaultHeaders,
+            body: json.encode(requestBody),
+          )
+          .timeout(
+            ApiConfig.requestTimeout,
+            onTimeout: () {
+              throw TimeoutException(
+                'La petición tardó demasiado en responder',
+                ApiConfig.requestTimeout,
+              );
+            },
+          );
 
       print('Status code: ${response.statusCode}');
       print('Response body: ${response.body}');
@@ -85,25 +90,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         print('Data decodificada: $data');
-        
-                 if (data['success'] == true) {
-           // Registro exitoso
-           ScaffoldMessenger.of(context).showSnackBar(
-             SnackBar(
-               content: Text('¡Registro exitoso! ${data['message'] ?? 'Usuario registrado correctamente'}'),
-               backgroundColor: Colors.green,
-               duration: const Duration(seconds: 3),
-             ),
-           );
-           
-                       // Regresar al login para que inicie sesión
-            Navigator.pop(context);
-           
-         } else {
+
+        if (data['success'] == true) {
+          // Registro exitoso
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                '¡Registro exitoso! ${data['message'] ?? 'Usuario registrado correctamente'}',
+              ),
+              backgroundColor: Colors.green,
+              duration: const Duration(seconds: 3),
+            ),
+          );
+
+          // Regresar al login para que inicie sesión
+          Navigator.pop(context);
+        } else {
           // Registro fallido
           String errorMessage = data['message'] ?? 'Error en el registro';
           print('Error del servidor: $errorMessage');
-          
+
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(errorMessage),
@@ -115,10 +121,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
       } else {
         // Error de conexión
         print('Error HTTP: ${response.statusCode} - ${response.reasonPhrase}');
-        
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Error del servidor: ${response.statusCode} - ${response.reasonPhrase ?? "Error desconocido"}'),
+            content: Text(
+              'Error del servidor: ${response.statusCode} - ${response.reasonPhrase ?? "Error desconocido"}',
+            ),
             backgroundColor: Colors.red,
             duration: const Duration(seconds: 4),
           ),
@@ -128,7 +136,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       // Error de red
       print('Error de red: $e');
       print('Tipo de error: ${e.runtimeType}');
-      
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Error de conexión: $e'),
@@ -163,9 +171,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         elevation: 0,
       ),
       body: Container(
-        decoration: const BoxDecoration(
-          color: Color(0xFFF5F5DC),
-        ),
+        decoration: const BoxDecoration(color: Color(0xFFF5F5DC)),
         child: SafeArea(
           child: Center(
             child: SingleChildScrollView(
@@ -202,21 +208,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ],
                         ),
-                        
+
                         const SizedBox(height: 32),
-                        
+
                         // Campo de nombre
                         TextFormField(
                           controller: _nombreController,
                           decoration: InputDecoration(
                             labelText: 'Nombre completo',
-                            prefixIcon: const Icon(Icons.person, color: Color(0xFF8B4513)),
+                            prefixIcon: const Icon(
+                              Icons.person,
+                              color: Color(0xFF8B4513),
+                            ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
-                              borderSide: const BorderSide(color: Color(0xFF8B4513), width: 2),
+                              borderSide: const BorderSide(
+                                color: Color(0xFF8B4513),
+                                width: 2,
+                              ),
                             ),
                           ),
                           validator: (value) {
@@ -229,47 +241,60 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             return null;
                           },
                         ),
-                        
+
                         const SizedBox(height: 20),
-                        
+
                         // Campo de correo
                         TextFormField(
                           controller: _emailController,
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
                             labelText: 'Correo electrónico',
-                            prefixIcon: const Icon(Icons.email, color: Color(0xFF8B4513)),
+                            prefixIcon: const Icon(
+                              Icons.email,
+                              color: Color(0xFF8B4513),
+                            ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
-                              borderSide: const BorderSide(color: Color(0xFF8B4513), width: 2),
+                              borderSide: const BorderSide(
+                                color: Color(0xFF8B4513),
+                                width: 2,
+                              ),
                             ),
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Por favor ingresa tu correo';
                             }
-                            if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
+                            if (!RegExp(
+                              r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                            ).hasMatch(value)) {
                               return 'Por favor ingresa un correo válido';
                             }
                             return null;
                           },
                         ),
-                        
+
                         const SizedBox(height: 20),
-                        
+
                         // Campo de contraseña
                         TextFormField(
                           controller: _passwordController,
                           obscureText: _obscurePassword,
                           decoration: InputDecoration(
                             labelText: 'Contraseña',
-                            prefixIcon: const Icon(Icons.lock, color: Color(0xFF8B4513)),
+                            prefixIcon: const Icon(
+                              Icons.lock,
+                              color: Color(0xFF8B4513),
+                            ),
                             suffixIcon: IconButton(
                               icon: Icon(
-                                _obscurePassword ? Icons.visibility : Icons.visibility_off,
+                                _obscurePassword
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
                                 color: Color(0xFF8B4513),
                               ),
                               onPressed: () {
@@ -283,7 +308,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
-                              borderSide: const BorderSide(color: Color(0xFF8B4513), width: 2),
+                              borderSide: const BorderSide(
+                                color: Color(0xFF8B4513),
+                                width: 2,
+                              ),
                             ),
                           ),
                           validator: (value) {
@@ -296,24 +324,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             return null;
                           },
                         ),
-                        
+
                         const SizedBox(height: 20),
-                        
+
                         // Campo de confirmar contraseña
                         TextFormField(
                           controller: _confirmPasswordController,
                           obscureText: _obscureConfirmPassword,
                           decoration: InputDecoration(
                             labelText: 'Confirmar contraseña',
-                            prefixIcon: const Icon(Icons.lock_outline, color: Color(0xFF8B4513)),
+                            prefixIcon: const Icon(
+                              Icons.lock_outline,
+                              color: Color(0xFF8B4513),
+                            ),
                             suffixIcon: IconButton(
                               icon: Icon(
-                                _obscureConfirmPassword ? Icons.visibility : Icons.visibility_off,
+                                _obscureConfirmPassword
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
                                 color: Color(0xFF8B4513),
                               ),
                               onPressed: () {
                                 setState(() {
-                                  _obscureConfirmPassword = !_obscureConfirmPassword;
+                                  _obscureConfirmPassword =
+                                      !_obscureConfirmPassword;
                                 });
                               },
                             ),
@@ -322,7 +356,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
-                              borderSide: const BorderSide(color: Color(0xFF8B4513), width: 2),
+                              borderSide: const BorderSide(
+                                color: Color(0xFF8B4513),
+                                width: 2,
+                              ),
                             ),
                           ),
                           validator: (value) {
@@ -335,78 +372,97 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             return null;
                           },
                         ),
-                        
+
                         const SizedBox(height: 20),
-                        
+
                         // Campo de dirección
                         TextFormField(
                           controller: _direccionController,
                           decoration: InputDecoration(
                             labelText: 'Dirección (opcional)',
-                            prefixIcon: const Icon(Icons.location_on, color: Color(0xFF8B4513)),
+                            prefixIcon: const Icon(
+                              Icons.location_on,
+                              color: Color(0xFF8B4513),
+                            ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
-                              borderSide: const BorderSide(color: Color(0xFF8B4513), width: 2),
+                              borderSide: const BorderSide(
+                                color: Color(0xFF8B4513),
+                                width: 2,
+                              ),
                             ),
                           ),
                         ),
-                        
+
                         const SizedBox(height: 20),
-                        
-                                                 // Campo de teléfono internacional
-                         Container(
-                           decoration: BoxDecoration(
-                             border: Border.all(color: Colors.grey.shade400),
-                             borderRadius: BorderRadius.circular(12),
-                           ),
-                           child: InternationalPhoneNumberInput(
-                             onInputChanged: (PhoneNumber number) {
-                               _phoneNumber = number;
-                               print('Teléfono ingresado: ${number.phoneNumber}');
-                             },
-                             onInputValidated: (bool value) {
-                               // No mostrar logs de validación para evitar spam
-                             },
-                             selectorConfig: const SelectorConfig(
-                               selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
-                               showFlags: true,
-                               useEmoji: true,
-                             ),
-                             ignoreBlank: true, // Ignorar si está vacío
-                             autoValidateMode: AutovalidateMode.disabled,
-                             selectorTextStyle: const TextStyle(color: Color(0xFF8B4513)),
-                             initialValue: _phoneNumber,
-                             formatInput: false, // No formatear automáticamente
-                             keyboardType: const TextInputType.numberWithOptions(
-                               signed: false,
-                               decimal: false,
-                             ),
-                             inputDecoration: InputDecoration(
-                               labelText: 'Teléfono (opcional)',
-                               hintText: 'Ingresa tu número',
-                               border: InputBorder.none,
-                               contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                             ),
-                           ),
-                         ),
-                        
+
+                        // Campo de teléfono internacional
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey.shade400),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: InternationalPhoneNumberInput(
+                            onInputChanged: (PhoneNumber number) {
+                              _phoneNumber = number;
+                              print(
+                                'Teléfono ingresado: ${number.phoneNumber}',
+                              );
+                            },
+                            onInputValidated: (bool value) {
+                              // No mostrar logs de validación para evitar spam
+                            },
+                            selectorConfig: const SelectorConfig(
+                              selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+                              showFlags: true,
+                              useEmoji: true,
+                            ),
+                            ignoreBlank: true, // Ignorar si está vacío
+                            autoValidateMode: AutovalidateMode.disabled,
+                            selectorTextStyle: const TextStyle(
+                              color: Color(0xFF8B4513),
+                            ),
+                            initialValue: _phoneNumber,
+                            formatInput: false, // No formatear automáticamente
+                            keyboardType: const TextInputType.numberWithOptions(
+                              signed: false,
+                              decimal: false,
+                            ),
+                            inputDecoration: InputDecoration(
+                              labelText: 'Teléfono (opcional)',
+                              hintText: 'Ingresa tu número',
+                              border: InputBorder.none,
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 16,
+                              ),
+                            ),
+                          ),
+                        ),
+
                         const SizedBox(height: 20),
-                        
+
                         // Selector de rol
                         DropdownButtonFormField<String>(
                           value: _selectedRol,
                           decoration: InputDecoration(
                             labelText: 'Tipo de cuenta',
-                            prefixIcon: const Icon(Icons.work, color: Color(0xFF8B4513)),
+                            prefixIcon: const Icon(
+                              Icons.work,
+                              color: Color(0xFF8B4513),
+                            ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
-                              borderSide: const BorderSide(color: Color(0xFF8B4513), width: 2),
+                              borderSide: const BorderSide(
+                                color: Color(0xFF8B4513),
+                                width: 2,
+                              ),
                             ),
                           ),
                           items: const [
@@ -425,9 +481,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             });
                           },
                         ),
-                        
+
                         const SizedBox(height: 32),
-                        
+
                         // Botón de registro
                         SizedBox(
                           width: double.infinity,
@@ -448,7 +504,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     height: 20,
                                     child: CircularProgressIndicator(
                                       strokeWidth: 2,
-                                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                        Colors.white,
+                                      ),
                                     ),
                                   )
                                 : const Text(
@@ -460,9 +518,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ),
                           ),
                         ),
-                        
+
                         const SizedBox(height: 20),
-                        
+
                         // Enlace para ir al login
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
