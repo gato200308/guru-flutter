@@ -11,10 +11,10 @@ class HomeScreen extends StatelessWidget {
 
   // Productos falsos para previsualización
   List<Product> get _products => [
-        Product(id: '1', name: 'Pulsera artesanal', price: 19.99),
-        Product(id: '2', name: 'Sombrero Wayuu', price: 39.50),
-        Product(id: '3', name: 'Mochila tejida', price: 59.00),
-      ];
+    Product(id: '1', name: 'Pulsera artesanal', price: 19.99),
+    Product(id: '2', name: 'Sombrero Wayuu', price: 39.50),
+    Product(id: '3', name: 'Mochila tejida', price: 59.00),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +45,10 @@ class HomeScreen extends StatelessWidget {
                       right: 8,
                       top: 8,
                       child: Container(
-                        padding:
-                            const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 6,
+                          vertical: 2,
+                        ),
                         decoration: BoxDecoration(
                           color: Colors.red,
                           borderRadius: BorderRadius.circular(10),
@@ -54,12 +56,21 @@ class HomeScreen extends StatelessWidget {
                         child: Text(
                           '$count',
                           style: const TextStyle(
-                              color: Colors.white, fontSize: 12),
+                            color: Colors.white,
+                            fontSize: 12,
+                          ),
                         ),
                       ),
                     ),
                 ],
               );
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.person),
+            tooltip: 'Login',
+            onPressed: () {
+              Navigator.pushNamed(context, '/login');
             },
           ),
         ],
@@ -88,10 +99,7 @@ class HomeScreen extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           ..._products.map(
-            (p) => ProductItem(
-              product: p,
-              onAddToCart: () => cartSrv.add(p),
-            ),
+            (p) => ProductItem(product: p, onAddToCart: () => cartSrv.add(p)),
           ),
         ],
       ),

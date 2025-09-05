@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'screens/home_screen.dart';
+import 'screens/login.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget {
       title: 'Guru App',
       home: const HomeScreen(),
       debugShowCheckedModeBanner: false,
+      routes: {'/login': (context) => const LoginScreen()},
     );
   }
 }
