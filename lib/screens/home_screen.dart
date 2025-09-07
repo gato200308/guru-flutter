@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../models/product.dart';
 import '../widgets/product_item.dart';
 import '../widgets/fake_button.dart';
+import '../services/session_service.dart';
+import 'account_screen.dart';
 import '../services/cart_service.dart';
 import 'cart_screen.dart';
 import 'history_screen.dart';
@@ -24,7 +26,6 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Guru Store'),
         actions: [
-          // Icono de carrito con contador
           ValueListenableBuilder<int>(
             valueListenable: cartSrv.itemCount,
             builder: (context, count, _) {
@@ -67,10 +68,26 @@ class HomeScreen extends StatelessWidget {
             },
           ),
           IconButton(
-            icon: Icon(Icons.person),
-            tooltip: 'Login',
-            onPressed: () {
-              Navigator.pushNamed(context, '/login');
+            icon: const Icon(Icons.person, color: Color(0xFF8B4513)),
+            tooltip: 'Cuenta o Login',
+            onPressed: () async {
+              final user = await SessionService.getUser();
+              if (user != null) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => AccountScreen(
+                      nombre: user['nombre'] ?? '',
+                      correo: user['correo'] ?? '',
+                      direccion: user['direccion'] ?? '',
+                      rol: user['rol'] ?? 'usuario',
+                      fotoUrl: user['fotoUrl'],
+                    ),
+                  ),
+                );
+              } else {
+                Navigator.pushNamed(context, '/login');
+              }
             },
           ),
         ],
