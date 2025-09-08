@@ -7,16 +7,36 @@ import 'account_screen.dart';
 import '../services/cart_service.dart';
 import 'cart_screen.dart';
 import 'history_screen.dart';
+import 'favorite_screen.dart'; // 👈 Importamos la nueva pantalla
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   // Productos falsos para previsualización
   List<Product> get _products => [
-    Product(id: '1', name: 'Pulsera artesanal', price: 19.99),
-    Product(id: '2', name: 'Sombrero Wayuu', price: 39.50),
-    Product(id: '3', name: 'Mochila tejida', price: 59.00),
-  ];
+        Product(
+          id: '1',
+          name: 'Pulsera artesanal',
+          price: 19.99,
+          description:
+              'Hecha a mano con materiales naturales por artesanos locales.',
+          imageUrl: 'assets/pulsera.png',
+        ),
+        Product(
+          id: '2',
+          name: 'Sombrero Wayuu',
+          price: 39.50,
+          description: 'Tradicional sombrero tejido por la comunidad Wayuu.',
+          imageUrl: 'assets/sombrero-wayuu.jpg',
+        ),
+        Product(
+          id: '3',
+          name: 'Mochila tejida',
+          price: 59.00,
+          description: 'Mochila artesanal tejida a mano con diseños únicos.',
+          imageUrl: 'assets/mochila.jpg',
+        ),
+      ];
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +46,19 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Guru Store'),
         actions: [
+          // ❤️ Botón de favoritos
+          IconButton(
+            icon: const Icon(Icons.favorite, color: Colors.red),
+            tooltip: 'Ver Favoritos',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const FavoriteScreen()),
+              );
+            },
+          ),
+
+          // 🛒 Botón de carrito
           ValueListenableBuilder<int>(
             valueListenable: cartSrv.itemCount,
             builder: (context, count, _) {
@@ -37,7 +70,8 @@ class HomeScreen extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (_) => const CartScreen()),
+                        MaterialPageRoute(
+                            builder: (_) => const CartScreen()),
                       );
                     },
                   ),
@@ -67,6 +101,8 @@ class HomeScreen extends StatelessWidget {
               );
             },
           ),
+
+          // 👤 Botón de cuenta
           IconButton(
             icon: const Icon(Icons.person, color: Color(0xFF8B4513)),
             tooltip: 'Cuenta o Login',
