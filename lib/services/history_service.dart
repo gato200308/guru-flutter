@@ -1,24 +1,30 @@
-import '../models/product.dart';
-
 class Purchase {
-  final DateTime date;
-  final List<Product> items;
-  final double total;
+  final String titulo;
+  final String fecha;
+  final int cantidad;
+  final double precio;
 
   Purchase({
-    required this.date,
-    required this.items,
-    required this.total,
+    required this.titulo,
+    required this.fecha,
+    required this.cantidad,
+    required this.precio,
   });
 }
 
 class HistoryService {
-  HistoryService._();
-  static final HistoryService _instance = HistoryService._();
+  static final HistoryService _instance = HistoryService._internal();
   factory HistoryService() => _instance;
+  HistoryService._internal();
 
-  final List<Purchase> _purchases = [];
+  final List<Purchase> _purchases = [
+    Purchase(titulo: 'Summer Monument', fecha: '09/09/2023', cantidad: 1, precio: 12.00),
+    Purchase(titulo: 'Customer Element', fecha: '09/09/2023', cantidad: 1, precio: 12.75),
+  ];
+
   List<Purchase> get purchases => List.unmodifiable(_purchases);
 
-  void add(Purchase p) => _purchases.add(p);
+  void add(Purchase purchase) {
+    _purchases.add(purchase);
+  }
 }

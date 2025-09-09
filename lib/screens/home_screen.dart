@@ -5,8 +5,8 @@ import '../widgets/fake_button.dart';
 import '../services/session_service.dart';
 import 'account_screen.dart';
 import '../services/cart_service.dart';
-import 'cart_screen.dart';
-import 'history_screen.dart';
+import '../historial_pedidos_page.dart';
+import '../pago_metodos_page.dart';
 import 'favorite_screen.dart'; // 👈 Importamos la nueva pantalla
 
 class HomeScreen extends StatelessWidget {
@@ -145,7 +145,14 @@ class HomeScreen extends StatelessWidget {
                 text: 'Ver Historial',
                 onPressed: () => Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => const HistoryScreen()),
+                  MaterialPageRoute(builder: (_) => const HistorialPedidosPage()),
+                ),
+              ),
+              FakeButton(
+                text: 'Métodos de Pago',
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const PagoMetodosPage()),
                 ),
               ),
             ],
