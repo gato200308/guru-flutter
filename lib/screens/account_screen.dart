@@ -129,7 +129,7 @@ class AccountScreen extends StatelessWidget {
                 if (rol == 'vendedor') ...[
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.of(context).pushNamed('/subir-producto');
+                      Navigator.pushNamed(context, '/subir_producto');
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: kDorado,
@@ -140,6 +140,21 @@ class AccountScreen extends StatelessWidget {
                       ),
                     ),
                     child: const Text('Subir productos'),
+                  ),
+                  const SizedBox(height: 12),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/editar_productos');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: kDorado,
+                      foregroundColor: kMarron,
+                      elevation: 2,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    child: const Text('Editar productos'),
                   ),
                   const SizedBox(height: 12),
                 ],
