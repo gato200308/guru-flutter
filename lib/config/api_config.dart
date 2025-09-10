@@ -39,7 +39,7 @@ class ApiConfig {
   }
 
   // Función para obtener información de debug
-  static String get debugInfo {a
+  static String get debugInfo {  
     return '''
     Entorno: ${EnvironmentConfig.environmentName}
     URL Base: $baseUrl
