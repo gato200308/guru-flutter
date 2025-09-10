@@ -1,5 +1,9 @@
+import 'dart:convert';
+import 'dart:io';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import '../config/api_config.dart';
 
 // Paleta de colores
 const kBeige = Color(0xFFF5F5DC);
@@ -58,6 +62,45 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       setState(() {
         fotoPath = pickedFile.path;
       });
+    }
+  }
+
+  Future<void> guardarCambios() async {
+    final url = '${ApiConfig.baseUrl}/usuarios_update.php';
+    String fotoBase64 = '';
+    if (fotoPath != null) {
+      final bytes = await File(fotoPath!).readAsBytes();
+      fotoBase64 = base64Encode(bytes);
+    }
+
+    final body = {
+      'id': 'ID_DEL_USUARIO', // Reemplaza por el ID real del usuario
+      'nombre': nombreController.text,
+      'correo': correoController.text,
+      'direccion': direccionController.text,
+      'foto': fotoBase64,
+    };
+
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+        headers: ApiConfig.defaultHeaders,
+        body: jsonEncode(body),
+      );
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Perfil actualizado correctamente')),
+        );
+        Navigator.pop(context);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error al actualizar: ${response.body}')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error de red: $e')));
     }
   }
 
@@ -181,14 +224,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 const SizedBox(height: 24),
                 ElevatedButton(
                   onPressed: () {
-                    // Aquí iría la lógica para guardar los cambios
-                    // Puedes enviar los datos a tu backend o actualizar el estado global
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Cambios guardados correctamente'),
-                      ),
-                    );
-                    Navigator.of(context).pop();
+                    guardarCambios();
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: kAzul,
