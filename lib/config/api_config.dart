@@ -22,7 +22,7 @@ class ApiConfig {
   }
 
   // Endpoints
-  static String get loginEndpoint => '${baseUrl}/auth/login.php';
+  static String get loginEndpoint => '$baseUrl/auth/login.php';
 
   // Timeouts
   static const Duration requestTimeout = Duration(seconds: 10);
@@ -39,7 +39,7 @@ class ApiConfig {
   }
 
   // Función para obtener información de debug
-  static String get debugInfo {  
+  static String get debugInfo {
     return '''
     Entorno: ${EnvironmentConfig.environmentName}
     URL Base: $baseUrl

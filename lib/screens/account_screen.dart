@@ -9,19 +9,21 @@ const kDorado = Color(0xFFFFD700);
 const kTexto = Color(0xFF2C3E50);
 
 class AccountScreen extends StatelessWidget {
+  final String id;
   final String nombre;
   final String correo;
   final String direccion;
+  final String telefono;
   final String rol;
-  final String? fotoUrl;
 
   const AccountScreen({
     super.key,
+    required this.id,
     required this.nombre,
     required this.correo,
     required this.direccion,
+    required this.telefono,
     required this.rol,
-    this.fotoUrl,
   });
 
   @override
@@ -67,17 +69,15 @@ class AccountScreen extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 24),
-                if (fotoUrl != null && fotoUrl!.isNotEmpty)
-                  CircleAvatar(
-                    radius: 45,
-                    backgroundImage: NetworkImage(fotoUrl!),
-                  )
-                else
-                  CircleAvatar(
-                    radius: 45,
-                    backgroundColor: kAzul,
-                    child: Icon(Icons.person, color: Colors.white, size: 48),
+                CircleAvatar(
+                  radius: 45,
+                  backgroundColor: kAzul,
+                  child: const Icon(
+                    Icons.person,
+                    color: Colors.white,
+                    size: 48,
                   ),
+                ),
                 const SizedBox(height: 18),
                 Text(
                   nombre,
@@ -100,20 +100,29 @@ class AccountScreen extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: const TextStyle(fontSize: 16, color: kTexto),
                 ),
+                const SizedBox(height: 8),
+                Text(
+                  telefono,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 16, color: kTexto),
+                ),
                 const SizedBox(height: 28),
                 ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
+                  onPressed: () async {
+                    await Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => EditProfileScreen(
+                          id: id,
                           nombre: nombre,
                           correo: correo,
                           direccion: direccion,
+                          telefono: telefono,
                           rol: rol,
-                          fotoUrl: fotoUrl,
                         ),
                       ),
                     );
+                    // Si tienes una función para recargar los datos, la llamas aquí
+                    // await _loadUser();
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: kAzul,
