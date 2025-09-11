@@ -2,9 +2,12 @@ import 'environment.dart';
 
 class ApiConfig {
   // URLs base según el entorno
-  static const String _devBaseUrl = 'http://192.168.0.8/backendguru';
-  static const String _stagingBaseUrl = 'http://192.168.0.8/backendguru';
-  static const String _prodBaseUrl = 'http://192.168.0.8/backendguru';
+  static const String _devBaseUrl =
+      'https://gurubackend.usbtopia.usbbog.edu.co';
+  static const String _stagingBaseUrl =
+      'https://gurubackend.usbtopia.usbbog.edu.co';
+  static const String _prodBaseUrl =
+      'https://gurubackend.usbtopia.usbbog.edu.co';
 
   // URL base del backend según el entorno
   static String get baseUrl {
@@ -19,7 +22,7 @@ class ApiConfig {
   }
 
   // Endpoints
-  static String get loginEndpoint => '${baseUrl}/auth/login.php';
+  static String get loginEndpoint => '$baseUrl/auth/login.php';
 
   // Timeouts
   static const Duration requestTimeout = Duration(seconds: 10);
