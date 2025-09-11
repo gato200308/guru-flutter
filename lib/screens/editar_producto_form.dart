@@ -81,45 +81,48 @@ class _EditarProductoFormState extends State<EditarProductoForm> {
 
     return Scaffold(
       appBar: AppBar(title: Text('Editar producto')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            imagenUrl != null
-                ? Image.network(
-                    imagenUrl,
-                    width: 80,
-                    height: 80,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) =>
-                        Icon(Icons.image_not_supported, size: 80),
-                  )
-                : Icon(Icons.image_not_supported, size: 80),
-            SizedBox(height: 16),
-            TextField(
-              controller: nombreController,
-              decoration: InputDecoration(labelText: 'Nombre'),
-            ),
-            TextField(
-              controller: descripcionController,
-              decoration: InputDecoration(labelText: 'Descripción'),
-            ),
-            TextField(
-              controller: precioController,
-              decoration: InputDecoration(labelText: 'Precio'),
-              keyboardType: TextInputType.number,
-            ),
-            TextField(
-              controller: stockController,
-              decoration: InputDecoration(labelText: 'Stock'),
-              keyboardType: TextInputType.number,
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: actualizarProducto,
-              child: Text('Guardar cambios'),
-            ),
-          ],
+      resizeToAvoidBottomInset: true,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              imagenUrl != null
+                  ? Image.network(
+                      imagenUrl,
+                      width: 80,
+                      height: 80,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) =>
+                          Icon(Icons.image_not_supported, size: 80),
+                    )
+                  : Icon(Icons.image_not_supported, size: 80),
+              SizedBox(height: 16),
+              TextField(
+                controller: nombreController,
+                decoration: InputDecoration(labelText: 'Nombre'),
+              ),
+              TextField(
+                controller: descripcionController,
+                decoration: InputDecoration(labelText: 'Descripción'),
+              ),
+              TextField(
+                controller: precioController,
+                decoration: InputDecoration(labelText: 'Precio'),
+                keyboardType: TextInputType.number,
+              ),
+              TextField(
+                controller: stockController,
+                decoration: InputDecoration(labelText: 'Stock'),
+                keyboardType: TextInputType.number,
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: actualizarProducto,
+                child: Text('Guardar cambios'),
+              ),
+            ],
+          ),
         ),
       ),
     );

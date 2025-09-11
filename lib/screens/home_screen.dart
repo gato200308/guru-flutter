@@ -117,7 +117,8 @@ class HomeScreen extends StatelessWidget {
                       correo: user['correo'] ?? '',
                       direccion: user['direccion'] ?? '',
                       rol: user['rol'] ?? 'usuario',
-                      fotoUrl: user['fotoUrl'],
+                      telefono: user['telefono'] ?? '',
+                      id: user['id'] ?? '',
                     ),
                   ),
                 );

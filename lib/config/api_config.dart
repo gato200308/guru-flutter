@@ -2,12 +2,9 @@ import 'environment.dart';
 
 class ApiConfig {
   // URLs base según el entorno
-  static const String _devBaseUrl =
-      'https://gurubackend.usbtopia.usbbog.edu.co';
-  static const String _stagingBaseUrl =
-      'https://gurubackend.usbtopia.usbbog.edu.co';
-  static const String _prodBaseUrl =
-      'https://gurubackend.usbtopia.usbbog.edu.co';
+  static const String _devBaseUrl = 'http://192.168.0.8/backendguru';
+  static const String _stagingBaseUrl = 'http://192.168.0.8/backendguru';
+  static const String _prodBaseUrl = 'http://192.168.0.8/backendguru';
 
   // URL base del backend según el entorno
   static String get baseUrl {
@@ -39,7 +36,7 @@ class ApiConfig {
   }
 
   // Función para obtener información de debug
-  static String get debugInfo {a
+  static String get debugInfo {
     return '''
     Entorno: ${EnvironmentConfig.environmentName}
     URL Base: $baseUrl
