@@ -5,9 +5,10 @@ import '../widgets/fake_button.dart';
 import '../services/session_service.dart';
 import 'account_screen.dart';
 import '../services/cart_service.dart';
-import '../historial_pedidos_page.dart';
-import '../pago_metodos_page.dart';
+import 'historial_pedidos_page.dart';
+import 'pago_metodos_page.dart';
 import 'favorite_screen.dart'; // 👈 Importamos la nueva pantalla
+import 'cart_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

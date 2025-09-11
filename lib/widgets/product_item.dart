@@ -8,10 +8,10 @@ class ProductItem extends StatelessWidget {
   final VoidCallback onAddToCart;
 
   const ProductItem({
-    Key? key,
+    super.key,
     required this.product,
     required this.onAddToCart,
-  }) : super(key: key);
+  });
 
   void _openDetail(BuildContext context) {
     Navigator.of(context).push(

@@ -447,7 +447,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                         // Selector de rol
                         DropdownButtonFormField<String>(
-                          value: _selectedRol,
+                          initialValue: _selectedRol,
                           decoration: InputDecoration(
                             labelText: 'Tipo de cuenta',
                             prefixIcon: const Icon(

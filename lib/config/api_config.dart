@@ -22,7 +22,7 @@ class ApiConfig {
   }
 
   // Endpoints
-  static String get loginEndpoint => '${baseUrl}/auth/login.php';
+  static String get loginEndpoint => '$baseUrl/auth/login.php';
 
   // Timeouts
   static const Duration requestTimeout = Duration(seconds: 10);

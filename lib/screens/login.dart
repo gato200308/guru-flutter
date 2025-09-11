@@ -70,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
             'correo': user['correo'] ?? '',
             'direccion': user['direccion'] ?? '',
             'rol': user['rol'] ?? 'usuario',
-            'fotoUrl': user['fotoUrl'] ?? null,
+            'fotoUrl': user['fotoUrl'],
           });
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(

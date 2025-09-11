@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../services/history_service.dart';
-import 'historial_pedidos_page.dart';
+import 'package:guru_app/screens/historial_pedidos_page.dart';
+import 'package:guru_app/screens/home_screen.dart';
 
 class PagoMetodosPage extends StatefulWidget {
   const PagoMetodosPage({super.key});
@@ -11,9 +11,22 @@ class PagoMetodosPage extends StatefulWidget {
 }
 
 class _PagoMetodosPageState extends State<PagoMetodosPage> {
-  List<Purchase> get productos => HistoryService().purchases;
+  final List<Map<String, dynamic>> productos = [
+    {
+      'titulo': 'Summer Monument',
+      'fecha': '09/09/2023',
+      'cantidad': 1,
+      'precio': 12.00,
+    },
+    {
+      'titulo': 'Customer Element',
+      'fecha': '09/09/2023',
+      'cantidad': 1,
+      'precio': 12.75,
+    },
+  ];
 
-  double get subtotal => productos.fold(0.0, (total, item) => total + item.precio * item.cantidad);
+  double get subtotal => productos.fold(0.0, (total, item) => total + item['precio'] * item['cantidad']);
 
   Future<void> _simularPagoPSE(BuildContext context) async {
     final urlSimulado = 'https://www.google.com';
@@ -32,7 +45,7 @@ class _PagoMetodosPageState extends State<PagoMetodosPage> {
       labelStyle: const TextStyle(color: Colors.white),
       floatingLabelStyle: const TextStyle(
         color: Colors.black,
-        backgroundColor: Colors.white,
+        backgroundColor: Color(0xFFFFD700),
         fontWeight: FontWeight.bold,
       ),
       filled: true,
@@ -48,7 +61,7 @@ class _PagoMetodosPageState extends State<PagoMetodosPage> {
     );
   }
 
-  Widget _bannerSuperior() {
+  Widget _bannerSuperior(BuildContext context) {
     return Container(
       height: 100,
       color: const Color(0xFF4E342E),
@@ -59,10 +72,21 @@ class _PagoMetodosPageState extends State<PagoMetodosPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Image.asset(
-                'assets/images/guru_logo.png',
-                height: 48,
-                fit: BoxFit.contain,
+              InkWell(
+                onTap: () {
+                Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => const HomeScreen()),
+                );
+                },
+                child: Image.asset(
+                  'assets/guru_logo.png',
+                  height: 48,
+                  fit: BoxFit.contain,
+                  errorBuilder: (context, error, stackTrace) {
+                    return const Icon(Icons.error, color: Colors.red);
+                  },
+                ),
               ),
               IconButton(
                 onPressed: () {
@@ -120,33 +144,33 @@ class _PagoMetodosPageState extends State<PagoMetodosPage> {
   }
 
   Widget _historialPedidos({required bool integrado}) {
-  final contenido = Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      const Text(
-        'HISTORIAL DE PEDIDOS',
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF4E342E)),
-      ),
-      const SizedBox(height: 12),
-      ...productos.map((p) => Text('- ${p.titulo}')),
-      Text('Subtotal: \$${subtotal.toStringAsFixed(2)}'),
-    ],
-  );
+    final contenido = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'HISTORIAL DE PEDIDOS',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF4E342E)),
+        ),
+        const SizedBox(height: 12),
+        ...productos.map((p) => Text('- ${p['titulo']}')),
+        Text('Subtotal: \$${subtotal.toStringAsFixed(2)}'),
+      ],
+    );
 
-  return integrado
-      ? ExpansionTile(
-          initiallyExpanded: true,
-          title: const Text('Historial de pedidos', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-          children: [Padding(padding: const EdgeInsets.all(8), child: contenido)],
-        )
-      : Container(
-          width: 250,
-          margin: const EdgeInsets.only(left: 24),
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(color: Colors.white.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
-          child: contenido,
-        );
-}
+    return integrado
+        ? ExpansionTile(
+            initiallyExpanded: true,
+            title: const Text('Historial de pedidos', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+            children: [Padding(padding: const EdgeInsets.all(8), child: contenido)],
+          )
+        : Container(
+            width: 250,
+            margin: const EdgeInsets.only(left: 24),
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(color: Colors.white.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+            child: contenido,
+          );
+  }
 
   Widget _botonesPago(BuildContext context) {
     return Column(
@@ -198,7 +222,7 @@ class _PagoMetodosPageState extends State<PagoMetodosPage> {
               final isWide = constraints.maxWidth >= 800;
               return Column(
                 children: [
-                  _bannerSuperior(),
+                  _bannerSuperior(context),
                   Expanded(
                     child: Center(
                       child: Padding(

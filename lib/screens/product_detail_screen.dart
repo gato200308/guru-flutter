@@ -4,7 +4,7 @@ import '../models/product.dart';
 class ProductDetailScreen extends StatelessWidget {
   final Product product;
 
-  const ProductDetailScreen({Key? key, required this.product}) : super(key: key);
+  const ProductDetailScreen({super.key, required this.product});
 
   Widget _buildImage(String path) {
     // Si es URL, usamos Image.network

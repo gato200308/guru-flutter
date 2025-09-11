@@ -1,17 +1,29 @@
 import 'package:flutter/material.dart';
-import '../services/history_service.dart';
-
-import '../historial_pedidos_page.dart';
-import '../pago_metodos_page.dart';
+import 'package:guru_app/screens/pago_metodos_page.dart';
 
 class HistorialPedidosPage extends StatelessWidget {
   const HistorialPedidosPage({super.key});
 
-  double _calcularSubtotal(List<Purchase> productos) {
-    return productos.fold(0.0, (total, item) => total + item.precio * item.cantidad);
+  final List<Map<String, dynamic>> productos = const [
+    {
+      'titulo': 'Summer Monument',
+      'fecha': '09/09/2023',
+      'cantidad': 1,
+      'precio': 12.00,
+    },
+    {
+      'titulo': 'Customer Element',
+      'fecha': '09/09/2023',
+      'cantidad': 1,
+      'precio': 12.75,
+    },
+  ];
+
+  double _calcularSubtotal() {
+    return productos.fold(0.0, (total, item) => total + item['precio'] * item['cantidad']);
   }
 
-  Widget _bannerSuperior(double anchoMaximo, bool isWide) {
+  Widget _bannerSuperior(double anchoMaximo, bool isWide, BuildContext context) {
     return Container(
       height: 100,
       color: const Color(0xFF4E342E),
@@ -20,10 +32,18 @@ class HistorialPedidosPage extends StatelessWidget {
           width: isWide ? anchoMaximo : double.infinity,
           alignment: isWide ? Alignment.centerLeft : Alignment.center,
           padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Image.asset(
-            'assets/images/guru_logo.png',
-            height: 48,
-            fit: BoxFit.contain,
+          child: InkWell(
+            onTap: () {
+              Navigator.pop(context); // 👈 Regresa a la pantalla anterior
+            },
+            child: Image.asset(
+              'assets/guru_logo.png',
+              height: 48,
+              fit: BoxFit.contain,
+              errorBuilder: (context, error, stackTrace) {
+                return const Icon(Icons.error, color: Colors.red);
+              },
+            ),
           ),
         ),
       ),
@@ -32,8 +52,7 @@ class HistorialPedidosPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final productos = HistoryService().purchases;
-    final subtotal = _calcularSubtotal(productos);
+    final subtotal = _calcularSubtotal();
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -44,7 +63,7 @@ class HistorialPedidosPage extends StatelessWidget {
           backgroundColor: const Color(0xFFFFF8DC),
           body: Column(
             children: [
-              _bannerSuperior(anchoContenido, isWide),
+              _bannerSuperior(anchoContenido, isWide, context),
               Expanded(
                 child: Center(
                   child: Container(
@@ -69,11 +88,11 @@ class HistorialPedidosPage extends StatelessWidget {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(producto.titulo, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                                    Text(producto['titulo'], style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                                     const SizedBox(height: 8),
-                                    Text('Fecha de compra: ${producto.fecha}'),
-                                    Text('Cantidad: ${producto.cantidad}'),
-                                    Text('Precio: \$${producto.precio.toStringAsFixed(2)}'),
+                                    Text('Fecha de compra: ${producto['fecha']}'),
+                                    Text('Cantidad: ${producto['cantidad']}'),
+                                    Text('Precio: \$${producto['precio'].toStringAsFixed(2)}'),
                                   ],
                                 ),
                               ),
@@ -91,7 +110,7 @@ class HistorialPedidosPage extends StatelessWidget {
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (_) => CartScreen()),
+                                MaterialPageRoute(builder: (_) => const PagoMetodosPage()),
                               );
                             },
                             style: ElevatedButton.styleFrom(
