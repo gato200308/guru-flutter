@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'screens/home_screen.dart';
 import 'screens/cart_screen.dart';
 import 'screens/favorite_screen.dart';
-import 'screens/account_screen.dart';
 import 'services/session_service.dart';
 
 void main() {
@@ -19,22 +18,30 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
-        colorScheme: ColorScheme(
+        colorScheme: const ColorScheme(
           brightness: Brightness.light,
-          primary: const Color(0xFFFF6B35),
-          onPrimary: Colors.white,
-          secondary: const Color(0xFF2D3142),
-          onSecondary: Colors.white,
-          error: Colors.red.shade400,
+
+          // 🎨 Paleta principal
+          primary: Color(0xFF8B4513), // Marrón — botones, íconos, énfasis
+          onPrimary: Colors.white, // Texto sobre fondo marrón
+
+          secondary: Color(0xFF6A89CC), // Azul grisáceo suave — acento de foco
+          onSecondary: Color(0xFF2C3E50),
+
+          error: Color(0xFFF44336), // Rojo — SnackBar error
           onError: Colors.white,
-          background: const Color(0xFFF9F9F9),
-          onBackground: Colors.black87,
-          surface: Colors.white,
-          onSurface: Colors.black87,
+
+          background: Color(0xFFF5F5DC), // Beige claro — fondo principal
+          onBackground: Color(0xFF2C3E50), // Azul oscuro — textos principales
+
+          surface: Color(0xFFFFFFFF), // Blanco — tarjetas y contenedores
+          onSurface: Color(0xFF2C3E50),
         ),
-        scaffoldBackgroundColor: const Color(0xFFF9F9F9),
+
+        scaffoldBackgroundColor: const Color(0xFFF5F5DC),
+
         appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xFFFF6B35),
+          backgroundColor: Color(0xFF8B4513), // Marrón
           elevation: 2,
           centerTitle: true,
           titleTextStyle: TextStyle(
@@ -43,6 +50,31 @@ class MyApp extends StatelessWidget {
             color: Colors.white,
           ),
           iconTheme: IconThemeData(color: Colors.white),
+        ),
+
+        drawerTheme: const DrawerThemeData(
+          backgroundColor: Color(0xFFF5F5DC), // Beige claro
+        ),
+
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFF8B4513), // Marrón
+            foregroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(12)),
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+            textStyle: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
+          ),
+        ),
+
+        snackBarTheme: const SnackBarThemeData(
+          backgroundColor: Color(0xFF4CAF50), // Verde para mensajes de éxito
+          contentTextStyle: TextStyle(color: Colors.white),
+          behavior: SnackBarBehavior.floating,
         ),
       ),
       home: const MainScreen(),
@@ -66,37 +98,39 @@ class _MainScreenState extends State<MainScreen> {
     final List<Widget> screens = [
       const HomeScreen(),
       const CartScreen(),
-      const FavoriteScreen()
-      
-      ];
+      const FavoriteScreen(),
+    ];
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Artesanías Guru'),
+        title: const Text('Artesanías GURU'),
       ),
       drawer: Drawer(
         child: SafeArea(
           child: SingleChildScrollView(
             child: Column(
               children: [
-                DrawerHeader(
-                  decoration: const BoxDecoration(
-                    color: Color(0xFFFF6B35),
+                const DrawerHeader(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Color(0xFF8B4513), // Marrón
+                        Color(0xFF6A89CC), // Azul grisáceo suave
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
                   ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Icon(Icons.storefront, color: Colors.white, size: 50),
-                      SizedBox(height: 8),
-                      Text(
-                        'Menú Principal',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      )
-                    ],
+                  child: Center(
+                    child: Text(
+                      'GURU',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 2,
+                      ),
+                    ),
                   ),
                 ),
                 _drawerItem(
@@ -117,12 +151,6 @@ class _MainScreenState extends State<MainScreen> {
                   selected: _selectedIndex == 2,
                   onTap: () => _onItemTapped(2),
                 ),
-                _drawerItem(
-                  icon: Icons.person_outline,
-                  text: 'Cuenta',
-                  selected: _selectedIndex == 3,
-                  onTap: () => _onItemTapped(3),
-                ),
               ],
             ),
           ),
@@ -138,7 +166,7 @@ class _MainScreenState extends State<MainScreen> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-      Navigator.pop(context); // Cierra el Drawer
+      Navigator.pop(context);
     });
   }
 
@@ -149,13 +177,15 @@ class _MainScreenState extends State<MainScreen> {
     required VoidCallback onTap,
   }) {
     return ListTile(
-      leading: Icon(icon,
-          color: selected ? const Color(0xFFFF6B35) : Colors.black87),
+      leading: Icon(
+        icon,
+        color: selected ? const Color(0xFF8B4513) : const Color(0xFF2C3E50),
+      ),
       title: Text(
         text,
         style: TextStyle(
           fontWeight: selected ? FontWeight.bold : FontWeight.normal,
-          color: selected ? const Color(0xFFFF6B35) : Colors.black87,
+          color: selected ? const Color(0xFF8B4513) : const Color(0xFF2C3E50),
         ),
       ),
       selected: selected,
