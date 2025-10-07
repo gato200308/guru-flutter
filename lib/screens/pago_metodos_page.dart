@@ -110,20 +110,58 @@ class _PagoMetodosPageState extends State<PagoMetodosPage> {
   Widget _seccionTarjeta() {
     return ExpansionTile(
       initiallyExpanded: true,
-      title: const Text('Información de la tarjeta', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+      title: const Text(
+        'Información de la tarjeta',
+        style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+      ),
       children: [
         const SizedBox(height: 12),
-        TextField(style: const TextStyle(color: Colors.white), decoration: _estiloCampo('Número de tarjeta'), keyboardType: TextInputType.number),
+        Material(
+          color: Colors.transparent,
+          child: TextFormField(
+            textAlign: TextAlign.center,
+            style: const TextStyle(color: Colors.white),
+            decoration: _estiloCampo('Número de tarjeta'),
+            keyboardType: TextInputType.number,
+          ),
+        ),
         const SizedBox(height: 12),
         Row(
           children: [
-            Expanded(child: TextField(style: const TextStyle(color: Colors.white), decoration: _estiloCampo('MM/AA'), keyboardType: TextInputType.datetime)),
+            Expanded(
+              child: Material(
+                color: Colors.transparent,
+                child: TextFormField(
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Colors.white),
+                  decoration: _estiloCampo('MM/AA'),
+                  keyboardType: TextInputType.datetime,
+                ),
+              ),
+            ),
             const SizedBox(width: 12),
-            Expanded(child: TextField(style: const TextStyle(color: Colors.white), decoration: _estiloCampo('CVV'), keyboardType: TextInputType.number)),
+            Expanded(
+              child: Material(
+                color: Colors.transparent,
+                child: TextFormField(
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Colors.white),
+                  decoration: _estiloCampo('CVV'),
+                  keyboardType: TextInputType.number,
+                ),
+              ),
+            ),
           ],
         ),
         const SizedBox(height: 12),
-        TextField(style: const TextStyle(color: Colors.white), decoration: _estiloCampo('Nombre en la tarjeta')),
+        Material(
+          color: Colors.transparent,
+          child: TextFormField(
+            textAlign: TextAlign.center,
+            style: const TextStyle(color: Colors.white),
+            decoration: _estiloCampo('Nombre en la tarjeta'),
+          ),
+        ),
       ],
     );
   }
@@ -131,14 +169,39 @@ class _PagoMetodosPageState extends State<PagoMetodosPage> {
   Widget _seccionDireccion() {
     return ExpansionTile(
       initiallyExpanded: true,
-      title: const Text('Dirección de envío', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+      title: const Text(
+        'Dirección de envío',
+        style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+      ),
       children: [
         const SizedBox(height: 12),
-        TextField(style: const TextStyle(color: Colors.white), decoration: _estiloCampo('Dirección completa')),
+        Material(
+          color: Colors.transparent,
+          child: TextFormField(
+            textAlign: TextAlign.center,
+            style: const TextStyle(color: Colors.white),
+            decoration: _estiloCampo('Dirección completa'),
+          ),
+        ),
         const SizedBox(height: 12),
-        TextField(style: const TextStyle(color: Colors.white), decoration: _estiloCampo('Ciudad')),
+        Material(
+          color: Colors.transparent,
+          child: TextFormField(
+            textAlign: TextAlign.center,
+            style: const TextStyle(color: Colors.white),
+            decoration: _estiloCampo('Ciudad'),
+          ),
+        ),
         const SizedBox(height: 12),
-        TextField(style: const TextStyle(color: Colors.white), decoration: _estiloCampo('Código postal'), keyboardType: TextInputType.number),
+        Material(
+          color: Colors.transparent,
+          child: TextFormField(
+            textAlign: TextAlign.center,
+            style: const TextStyle(color: Colors.white),
+            decoration: _estiloCampo('Código postal'),
+            keyboardType: TextInputType.number,
+          ),
+        ),
       ],
     );
   }
@@ -231,19 +294,24 @@ class _PagoMetodosPageState extends State<PagoMetodosPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Container(
-                              width: 600,
-                              padding: const EdgeInsets.all(16),
-                              decoration: BoxDecoration(color: Colors.white.withOpacity(0.05), borderRadius: BorderRadius.circular(12)),
-                              child: ListView(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                children: [
-                                  _seccionTarjeta(),
-                                  _seccionDireccion(),
-                                  if (!isWide) _historialPedidos(integrado: true),
-                                  _botonesPago(context),
-                                ],
+                            ConstrainedBox(
+                              constraints: const BoxConstraints(maxWidth: 600),
+                              child: Container(
+                                padding: const EdgeInsets.all(16),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.05),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: ListView(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  children: [
+                                    _seccionTarjeta(),
+                                    _seccionDireccion(),
+                                    if (!isWide) _historialPedidos(integrado: true),
+                                    _botonesPago(context),
+                                  ],
+                                ),
                               ),
                             ),
                             if (isWide) _historialPedidos(integrado: false),

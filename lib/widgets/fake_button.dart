@@ -18,16 +18,19 @@ class FakeButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-        backgroundColor: backgroundColor,
-        foregroundColor: textColor,
+        backgroundColor: backgroundColor ?? const Color(0xFFEDE7F6),
+        foregroundColor: textColor ?? const Color(0xFF4B0082),
         elevation: 3,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+        minimumSize: const Size(0, 48), // 👈 asegura altura mínima
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
       onPressed: onPressed,
-      child: Text(
-        text,
-        style: TextStyle(fontWeight: FontWeight.bold, color: textColor),
+      child: FittedBox( // 👈 evita overflow horizontal
+        child: Text(
+          text,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
       ),
     );
   }

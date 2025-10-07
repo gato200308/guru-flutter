@@ -135,25 +135,40 @@ class HomeScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              FakeButton(
-                text: 'Ir al Carrito',
-                onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const CartScreen()),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  child: FakeButton(
+                    text: 'Ir al Carrito',
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const CartScreen()),
+                    ),
+                  ),
                 ),
               ),
-              FakeButton(
-                text: 'Ver Historial',
-                onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const HistorialPedidosPage()),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  child: FakeButton(
+                    text: 'Ver Historial',
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const HistorialPedidosPage()),
+                    ),
+                  ),
                 ),
               ),
-              FakeButton(
-                text: 'Métodos de Pago',
-                onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const PagoMetodosPage()),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  child: FakeButton(
+                    text: 'Métodos de Pago',
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const PagoMetodosPage()),
+                    ),
+                  ),
                 ),
               ),
             ],
