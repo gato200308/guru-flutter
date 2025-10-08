@@ -42,25 +42,28 @@ class _PagoMetodosPageState extends State<PagoMetodosPage> {
   InputDecoration _estiloCampo(String label) {
     return InputDecoration(
       labelText: label,
-      labelStyle: const TextStyle(color: Colors.white),
+      labelStyle: const TextStyle(
+        color: Colors.white, // Texto blanco por defecto
+        fontWeight: FontWeight.normal,
+      ),
       floatingLabelStyle: const TextStyle(
-        color: Colors.black,
-        backgroundColor: Color(0xFFFFD700),
+        color: Colors.yellow, // Texto flotante en foco
         fontWeight: FontWeight.bold,
+        backgroundColor: Colors.black,
       ),
       filled: true,
-      fillColor: Colors.black,
+      fillColor: Colors.black, // Fondo negro constante
+      contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       enabledBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.black),
+        borderSide: const BorderSide(color: Colors.white),
         borderRadius: BorderRadius.circular(8),
       ),
       focusedBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.black, width: 2),
+        borderSide: const BorderSide(color: Colors.yellow, width: 2),
         borderRadius: BorderRadius.circular(8),
       ),
     );
   }
-
   Widget _bannerSuperior(BuildContext context) {
     return Container(
       height: 100,
@@ -283,38 +286,57 @@ class _PagoMetodosPageState extends State<PagoMetodosPage> {
           child: LayoutBuilder(
             builder: (context, constraints) {
               final isWide = constraints.maxWidth >= 800;
+
               return Column(
                 children: [
                   _bannerSuperior(context),
                   Expanded(
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            ConstrainedBox(
-                              constraints: const BoxConstraints(maxWidth: 600),
-                              child: Container(
-                                padding: const EdgeInsets.all(16),
-                                decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(0.05),
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: ListView(
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: isWide
+                          ? Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Flexible(
+                            child: Container(
+                              padding: const EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.05),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: SingleChildScrollView(
+                                child: Column(
                                   children: [
                                     _seccionTarjeta(),
                                     _seccionDireccion(),
-                                    if (!isWide) _historialPedidos(integrado: true),
                                     _botonesPago(context),
                                   ],
                                 ),
                               ),
                             ),
-                            if (isWide) _historialPedidos(integrado: false),
+                          ),
+                          const SizedBox(width: 16),
+                          _historialPedidos(integrado: false),
+                        ],
+                      )
+                          : SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.05),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Column(
+                                children: [
+                                  _seccionTarjeta(),
+                                  _seccionDireccion(),
+                                  _historialPedidos(integrado: true),
+                                  _botonesPago(context),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                       ),

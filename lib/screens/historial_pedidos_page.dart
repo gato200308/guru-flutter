@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:guru_app/screens/pago_metodos_page.dart';
+import 'package:guru_app/screens/home_screen.dart';
 
 class HistorialPedidosPage extends StatelessWidget {
   const HistorialPedidosPage({super.key});
@@ -34,7 +35,10 @@ class HistorialPedidosPage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: InkWell(
             onTap: () {
-              Navigator.pop(context); // 👈 Regresa a la pantalla anterior
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => const HomeScreen()),
+              );
             },
             child: Image.asset(
               'assets/guru_logo.png',

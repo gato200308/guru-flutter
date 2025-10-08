@@ -13,8 +13,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Guru App',
-      home: const HomeScreen(),
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        inputDecorationTheme: const InputDecorationTheme(
+          floatingLabelStyle: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            backgroundColor: Colors.transparent, // ← fuerza sin fondo
+          ),
+        ),
+      ),
+      home: const HomeScreen(),
       routes: {'/login': (context) => const LoginScreen()},
     );
   }
